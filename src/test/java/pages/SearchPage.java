@@ -28,45 +28,44 @@ public class SearchPage {
         this.wait= new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-    public void typeSongInSearchField(String songName){
+    public void typeSongInSearchField(String songName) {
         WebElement searchBox = wait.until(ExpectedConditions.visibilityOfElementLocated(searchInputField));
-        driver.findElement(searchInputField).click();
-        driver.findElement(searchInputField).sendKeys(songName);
-
+        searchBox.click();
+        searchBox.sendKeys(songName);
     }
-    public void clickViewAll(){
+
+    public void clickViewAll() {
         WebElement viewAllBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(viewAllButton));
-
-        driver.findElement(viewAllButton).click();
+        viewAllBtn.click();
     }
 
-    public void selectFirstSongFromResults(){
+    public void selectFirstSongFromResults() {
         WebElement firstItem = wait.until(ExpectedConditions.visibilityOfElementLocated(firstSongRow));
-
-        driver.findElement(firstSongRow).click();
+        firstItem.click();
     }
-    public void clickAddToButton(){
+
+    public void clickAddToButton() {
         WebElement addToBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(addToButton));
-
-        driver.findElement(addToButton).click();
+        addToBtn.click();
     }
-    public void addItemToLists(){
+
+    public void addItemToLists() {
         WebElement addToList = wait.until(ExpectedConditions.visibilityOfElementLocated(addToPlayLists));
-
-        driver.findElement(addToPlayLists).click();
-
+        addToList.click();
     }
+
     public String getNotificationMessage() {
         // 1. Wait for the Notification to appear
         WebElement notification = wait.until(ExpectedConditions.visibilityOfElementLocated(notificationMessage));
 
-        // 2. Assert Notification message text
-
+        // 2. Get and return the notification message text
         String message = notification.getText();
+
+        // 3. Wait until the notification disappears
         wait.until(ExpectedConditions.invisibilityOfElementLocated(notificationMessage));
+
         return message;
     }
-
 
 
 
