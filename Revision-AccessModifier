@@ -1,0 +1,23 @@
+✅ private String url;
+This means only the BaseTest class itself can access url.
+
+You would need to create a getter method like getUrl() if you want to use it in another class.
+
+Best for full encapsulation, but less flexible if you want to use the URL in your test or page classes.
+
+✅ protected String url;
+This means url can be used in BaseTest and also in any class that extends BaseTest (like your test classes).
+
+This is the most common choice if your test classes need to access the URL directly.
+
+Keeps it hidden from outside classes unless they extend BaseTest.
+
+✅ public String url;
+This means any class anywhere can access the url directly.
+
+It's the most open, but not recommended, because it breaks encapsulation and makes your code harder to manage later.
+
+✅ Recommendation:
+Use **protected** for url in BaseTest, just like your driver, so your test classes can access it safely but it’s still not fully public.
+
+Let me know if you’d like help writing getter/setter methods or applying this in your framework!
