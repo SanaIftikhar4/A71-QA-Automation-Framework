@@ -21,6 +21,7 @@ public class SearchPage {
     //By favoriteItemOne = By.xpath("//section[@id='songResultsWrapper']//table[@class='items']//tr[1]//td[6]");
     By addToPlayLists = By.cssSelector("section[id='songResultsWrapper'] li[class='playlist']");
     By notificationMessage = By.cssSelector(".success.show");
+
     //Constructor to receive WebDriver Instance
 
     public SearchPage(WebDriver driver){

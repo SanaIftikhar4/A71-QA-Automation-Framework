@@ -5,10 +5,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.*;
 import pages.LoginPage;
 
 import java.time.Duration;
@@ -33,10 +30,7 @@ public class BaseTest {
         driver.get(url);
 
     }
-
-
-
-    @AfterSuite
+    @AfterMethod
     public void tearDown(){
         if(driver!= null){
             driver.quit();
