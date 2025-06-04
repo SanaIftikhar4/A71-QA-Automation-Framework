@@ -3,25 +3,26 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pages.LoginPage;
 
 import java.time.Duration;
 
     public class LoginTests extends BaseTest {
+
+
+
         @Test
-        public void navigationToLoginPage() {
+        public void testLogin() throws InterruptedException {
 
-//      Added ChromeOptions argument below to fix websocket error
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("--remote-allow-origins=*");
+            LoginPage lp = new LoginPage(driver); // Initialize the LoginPage with the driver from BaseTest
 
-            WebDriver driver = new ChromeDriver(options);
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+            lp.login("sana.iftikhar@testpro.io","abcd1234");
 
-            // TODO: Fix the URL if the test fails
-            String url = "https://qa.koel.app/";
-            driver.get(url);
-            Assert.assertEquals(driver.getCurrentUrl(), url);
-            driver.quit();
+            Assert.assertTrue(lp.isLogin(),"Login was NOT successful!");
+
         }
+
+
+
     }
-}
+
