@@ -7,8 +7,7 @@ public class SearchTest extends BaseTest{
 
     @Test
     public void addSongToPlaylist(){
-        LoginPage lp = new LoginPage(driver);
-        lp.login("sana.iftikhar@testpro.io","abcd1234");
+
         SearchPage sp =new SearchPage(driver);
         sp.typeSongInSearchField("Dee");
         sp.clickViewAll();

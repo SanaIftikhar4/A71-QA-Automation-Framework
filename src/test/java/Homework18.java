@@ -5,17 +5,12 @@ import pages.PlayButton;
 
 public class Homework18 extends BaseTest{
 
-
-    @Test
+    @Test(  dataProvider = "loginData")
+    public void loginUsingValidCredentials(String email ,String password){
+        loginPage.login(email,password);
+    }
+    @Test (priority = 1)
     public void playSong()  {
-
-        // Instantiate the login page using the current driver session
-        LoginPage lp = new LoginPage(driver);
-
-        // Log in to the Koel application with valid credentials
-        lp.login("sana.iftikhar@testpro.io","abcd1234");
-        System.out.println("Logged in successfully.");
-
         // Instantiate the play button page object to access music controls
 
         PlayButton pb = new PlayButton(driver);

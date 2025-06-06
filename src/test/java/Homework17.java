@@ -6,10 +6,14 @@ import pages.SearchPage;
 
 public class Homework17 extends BaseTest{
 
-    @Test
+    @Test(dataProvider = "loginData")
+    public void loginUsingValidCredentials(String email ,String password){
+        loginPage.login(email,password);
+    }
+
+    @Test(priority=1)
     public void addSongToPlaylist(){
-        LoginPage lp = new LoginPage(driver);
-        lp.login("sana.iftikhar@testpro.io","abcd1234");
+
         SearchPage sp =new SearchPage(driver);
         sp.typeSongInSearchField("Dee");
         sp.clickViewAll();

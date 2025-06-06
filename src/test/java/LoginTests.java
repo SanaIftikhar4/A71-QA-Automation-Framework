@@ -9,16 +9,17 @@ import java.time.Duration;
 
     public class LoginTests extends BaseTest {
 
-
+       @Test(dataProvider = "loginData")
+        public void loginUsingValidCredentials(String email ,String password){
+            loginPage.login(email,password);
+        }
 
         @Test
         public void testLogin() throws InterruptedException {
 
-            LoginPage lp = new LoginPage(driver); // Initialize the LoginPage with the driver from BaseTest
 
-            lp.login("sana.iftikhar@testpro.io","abcd1234");
 
-            Assert.assertTrue(lp.isLogin(),"Login was NOT successful!");
+            Assert.assertTrue(loginPage.isLogin(),"Login was NOT successful!");
 
         }
 
