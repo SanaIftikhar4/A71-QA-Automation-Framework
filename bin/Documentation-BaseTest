@@ -1,0 +1,49 @@
+Created and initialize WebDriver.
+Market it as protected ,so that my child classes can access it like test classes.Basically I am using Inheritance here.
+Used @BeforeSuite and @AfterSuite to control test lifecycle setup and teardown.
+@BeforeSuite:
+It tells TestNG to run this method once, before all tests in the suite.
+
+WebDriverManager.chromedriver().setup();:
+This uses WebDriverManager to automatically download and manage the correct version of the ChromeDriver.
+Without this, you’d have to manually download and set system properties.
+
+ChromeOptions options = new ChromeOptions();
+Creates an object to customize browser startup behavior.
+You can use it to:
+run headless, disable popups,and set user agents, etc.
+
+options.addArguments("--remote-allow-origins=*");
+This sets a command-line argument for Chrome.
+It’s often used to resolve CORS-related issues in local testing or certain security restrictions.
+Not always necessary — depends on the app you're testing.
+
+driver.manage().window().maximize();
+This command maximizes the browser window.
+It helps avoid issues caused by elements being off-screen due to a small window.
+
+navigate to the URL right after the driver starts, ensuring tests start on the correct page.
+
+
+@AfterSuite
+It tells TestNG to run this method once after all tests in the suite have finished running.
+It’s used for clean-up operations like closing browser sessions, releasing resources, and logging.
+
+if(driver != null)
+This checks if the driver was initialized.
+Why? Because if the driver was never set up (e.g. a test failed early), calling driver.quit() on a null driver would throw a NullPointerException.
+It’s a safe guard.
+
+driver.quit();
+This closes all browser windows and ends the WebDriver session completely.
+It also frees up system memory and CPU resources used by ChromeDriver.
+This is a best practice — always clean up after tests!
+
+Summary:
+In my BaseTest class, I set up the browser before running any test.
+I use WebDriverManager to set up ChromeDriver, and then I open the Chrome browser and make the window full screen.
+I also use @BeforeSuite, so this setup runs only once before all the tests.
+I create the driver as a protected variable so other test classes can use it.
+Navigated to url.
+At the end, I use @AfterSuite to close the browser after all tests are finished.
+This helps keep everything clean and avoids leaving browsers open.
