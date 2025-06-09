@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -14,18 +15,24 @@ public class PlayList {
     // WebDriver and WebDriverWait to interact with and wait for elements
     protected WebDriver driver ;
     protected WebDriverWait wait ;
+    protected Actions actions;
 
     // Locators
     By createPlayListButton = By.cssSelector("[data-testid='sidebar-create-playlist-btn']");
     By newPlayListOption = By.cssSelector("[data-testid='playlist-context-menu-create-simple']");
     By playListNameInputField = By.cssSelector("input[name='name']");
     By userCreatedPlaylists  = By.cssSelector("#playlists ul li:nth-child(n+3)");//This selects only the li elements starting from the 3rd one and onward
-    By deletePlayListButton = By.xpath("//button[contains(@class, 'btn-delete')]");
+    By deletePlayListRedButton = By.xpath("//button[contains(@class, 'btn-delete')]");
     By alert_playListDeletedSuccessfully = By.cssSelector(".success.show");
+    By listOptionDelete = By.cssSelector("[data-testid^='playlist-context-menu-delete']");
+
+    By alertWindow = By.cssSelector("div .dialog");
+    By alert_msg_OK = By.cssSelector(".ok");
     // Constructor to initialize driver and wait
     public PlayList(WebDriver driver){
         this.driver = driver;
         this.wait= new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.actions = new Actions(driver);
     }
     //click on'+' button to create a list
     public void clickOnPlusButton(){
@@ -47,6 +54,7 @@ public class PlayList {
         clickOnPlusButton();
         clickOnNewPlayList();
         typePlayListName();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(alert_playListDeletedSuccessfully));
 
     }
     //selecting user-created playlist ignoring built-in list Favorites and Recently Played
@@ -65,14 +73,37 @@ public class PlayList {
         }
     }
     //deleting selected playlist
-    public void deletePlayList(){
+    public void deletePlayListUsingRedButton(){
 
         selectPlaylist();// Select a playlist to delete
-        WebElement deleteButton = wait.until(ExpectedConditions.visibilityOfElementLocated(deletePlayListButton));
+        WebElement deleteButton = wait.until(ExpectedConditions.visibilityOfElementLocated(deletePlayListRedButton));
         deleteButton.click();
+
         wait.until(ExpectedConditions.invisibilityOfElementLocated(userCreatedPlaylists));//wait until play lists gets deleted
+    }
+    public void deletePlayListUsingListOption(){
 
+        // Right-click the playlist item
+        WebElement list = wait.until(ExpectedConditions.visibilityOfElementLocated(userCreatedPlaylists));
+        actions.contextClick(list).perform();
+        // Click the "Delete" option from the context menu
+        WebElement clickDelete = wait.until(ExpectedConditions.visibilityOfElementLocated(listOptionDelete));
+        clickDelete.click();
+        // 3. OPTIONAL: Handle confirmation dialog if it appears
+        try {
+            // Wait up to 3 seconds for confirmation popup
+            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(3));
+            WebElement alertBox = shortWait.until(ExpectedConditions.visibilityOfElementLocated(alertWindow));
 
+            // If alert appears, click OK
+            WebElement okButton = shortWait.until(ExpectedConditions.visibilityOfElementLocated(alert_msg_OK));
+            actions.moveToElement(okButton).click().perform();
+        } catch (Exception e) {
+            // No alert appeared – it's OK, continue silently
+        }
+
+        // 4. Wait until the playlist disappears
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(userCreatedPlaylists));
     }
 
     public String successfulDeletionMessage(){

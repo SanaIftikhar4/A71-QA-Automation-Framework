@@ -12,17 +12,14 @@ import java.time.Duration;
 
 public class BaseTest {
 
-    protected WebDriver driver = null ;
+    protected WebDriver driver = null;
     protected String url = null;
     protected LoginPage loginPage;
 
 
-
-
-
     @BeforeClass
     @Parameters({"baseUrl"})
-    public void launchBrowser(String baseUrl){
+    public void launchBrowser(String baseUrl) {
 
         WebDriverManager.chromedriver().setup();
 
@@ -32,17 +29,18 @@ public class BaseTest {
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
 
-        url=baseUrl;
+        url = baseUrl;
         //Navigating to koel App
         driver.get(url);
         loginPage = new LoginPage(driver);
+        loginPage.login("sana.iftikhar@testpro.io","abcd1234");
+
     }
-    @DataProvider(name="loginData")
+    /*@DataProvider(name="loginData")
     public Object[][] loginToAppValidData(){
         return new Object[][]{
                 {"sana.iftikhar@testpro.io","abcd1234" }
-        };
-    }
+        };*/
 
 
 
@@ -53,7 +51,6 @@ public class BaseTest {
             driver.quit();
         }
     }
-
 
 
 }

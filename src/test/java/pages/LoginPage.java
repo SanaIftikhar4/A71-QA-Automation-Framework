@@ -28,9 +28,9 @@ public class LoginPage {
     }
 
     public void login(String email, String password){
-        driver.findElement(emailInput).sendKeys(email);
-        driver.findElement(passwordInput).sendKeys(password);
-        driver.findElement(loginButton).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(emailInput)).sendKeys(email);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(passwordInput)).sendKeys(password);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(loginButton)).click();
     }
 
     public boolean isLogin(){

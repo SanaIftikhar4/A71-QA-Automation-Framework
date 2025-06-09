@@ -5,10 +5,7 @@ import pages.PlayButton;
 
 public class Homework18 extends BaseTest{
 
-    @Test(  dataProvider = "loginData")
-    public void loginUsingValidCredentials(String email ,String password){
-        loginPage.login(email,password);
-    }
+
     @Test (priority = 1)
     public void playSong()  {
         // Instantiate the play button page object to access music controls

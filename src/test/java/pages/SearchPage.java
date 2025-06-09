@@ -56,6 +56,10 @@ public class SearchPage {
     }
 
     public String getNotificationMessage() {
+
+        // Wait until the expected notification about song being added appears
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(
+                notificationMessage, "Added 1 song into"));
         // 1. Wait for the Notification to appear
         WebElement notification = wait.until(ExpectedConditions.visibilityOfElementLocated(notificationMessage));
 
