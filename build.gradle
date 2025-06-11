@@ -21,5 +21,6 @@ test {
         suites "src/test/resources/HomeWork18.xml"
         suites "src/test/resources/HomeWork19.xml"
         suites "src/test/resources/HomeWork20.xml"
+        suites "src/test/resources/HomeWork21.xml"
     }
 }

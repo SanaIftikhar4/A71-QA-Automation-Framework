@@ -21,10 +21,16 @@ public class PlayList {
     By createPlayListButton = By.cssSelector("[data-testid='sidebar-create-playlist-btn']");
     By newPlayListOption = By.cssSelector("[data-testid='playlist-context-menu-create-simple']");
     By playListNameInputField = By.cssSelector("input[name='name']");
+    //or  By.xpath("//input[contains(@data-testid,'playlist-name')]");
+
     By userCreatedPlaylists  = By.cssSelector("#playlists ul li:nth-child(n+3)");//This selects only the li elements starting from the 3rd one and onward
     By deletePlayListRedButton = By.xpath("//button[contains(@class, 'btn-delete')]");
     By alert_playListDeletedSuccessfully = By.cssSelector(".success.show");
+
     By listOptionDelete = By.cssSelector("[data-testid^='playlist-context-menu-delete']");
+    By listOptionsEdit = By.xpath("//li[contains(@data-testid, 'context-menu-edit')]");
+
+    By userCreatedPlaylists_Active = By.xpath("//a[@class='active']");
 
     By alertWindow = By.cssSelector("div .dialog");
     By alert_msg_OK = By.cssSelector(".ok");
@@ -109,6 +115,23 @@ public class PlayList {
     public String successfulDeletionMessage(){
         WebElement alert_msg = wait.until(ExpectedConditions.visibilityOfElementLocated(alert_playListDeletedSuccessfully));
         return alert_msg.getText();
+    }
+
+    public void editPlayListName(String randomPlayListName){
+        WebElement playLists = wait.until(ExpectedConditions.visibilityOfElementLocated(userCreatedPlaylists));
+        actions.moveToElement(playLists).contextClick().perform();
+        WebElement clickEdit = wait.until(ExpectedConditions.visibilityOfElementLocated(listOptionsEdit));
+        actions.moveToElement(clickEdit).click().perform();
+        WebElement reNamePlayList = wait.until(ExpectedConditions.visibilityOfElementLocated(playListNameInputField));
+        reNamePlayList.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+        reNamePlayList.sendKeys(Keys.DELETE);
+        reNamePlayList.sendKeys(randomPlayListName,Keys.ENTER);
+    }
+
+
+    public String getEditedPlaylistName(){
+        WebElement playListName = wait.until(ExpectedConditions.visibilityOfElementLocated(userCreatedPlaylists_Active));
+        return playListName.getText();
     }
 
 }
