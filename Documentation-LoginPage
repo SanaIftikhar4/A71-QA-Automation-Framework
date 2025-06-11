@@ -1,0 +1,14 @@
+Declare a variable to hold a reference to the driver that gets passed in.
+
+Then, locators of the login page ,since I didn't specified they are by default private.
+The idea is to keep the locators encapsulated in the page so I do not have to repeat them in every test.
+
+I added a constructor that takes the WebDriver from the test class and assigns it to the page, so this page object can interact with the browser.
+
+Then created a reusable and dynamic login method.
+
+Summary:
+In my LoginPage class, I keep all the locators for the login elements like email, password, and login button.
+I also create a constructor to receive the driver from the test class, so this page knows which browser to work with.
+Then I write a login() method where I enter the email and password and click the login button.
+This helps keep my test code clean and reusable, because the login steps are written only once in this page.
