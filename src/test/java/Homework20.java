@@ -1,6 +1,7 @@
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pages.PlayList;
+import pages.HomePage;
+import pages.PlayListPage;
 
 public class Homework20 extends BaseTest {
 
@@ -13,11 +14,12 @@ public class Homework20 extends BaseTest {
 
     @Test(priority = 1)
     public void deletePlaylist() {
-        PlayList playList = new PlayList(driver);
-        playList.deletePlayListUsingRedButton();
+        HomePage homePage = new HomePage(driver);
+        PlayListPage playListPage = new PlayListPage(driver);
+        playListPage.deletePlayListUsingRedButton();
         String expectedAlertMessage = "Deleted playlist \"MyPlayList.\"";
         //Assert.assertTrue(playList.),);
-        Assert.assertEquals(playList.successfulDeletionMessage(),expectedAlertMessage,"Assertion failed : User created playList exists under Playlist");
+        Assert.assertEquals(homePage.successfulDeletionMessage(),expectedAlertMessage,"Assertion failed : User created playList exists under Playlist");
 
     }
 }

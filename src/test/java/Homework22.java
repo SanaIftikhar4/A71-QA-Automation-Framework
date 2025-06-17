@@ -5,7 +5,7 @@ import pages.PlayListPage;
 
 import java.util.UUID;
 
-public class Homework21 extends BaseTest{
+public class Homework22 extends BaseTest{
     @Test(priority=1)
     public void renamePlaylist(){
 

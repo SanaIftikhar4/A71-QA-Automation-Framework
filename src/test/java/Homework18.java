@@ -1,7 +1,6 @@
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pages.LoginPage;
-import pages.PlayButton;
+import pages.HomePage;
 
 public class Homework18 extends BaseTest{
 
@@ -10,7 +9,7 @@ public class Homework18 extends BaseTest{
     public void playSong()  {
         // Instantiate the play button page object to access music controls
 
-        PlayButton pb = new PlayButton(driver);
+        HomePage pb = new HomePage(driver);
 
         // Hover over the Koel album image to reveal playback controls
         pb.hoverOverKoelImage();

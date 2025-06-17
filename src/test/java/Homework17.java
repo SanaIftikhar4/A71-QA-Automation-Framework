@@ -1,9 +1,8 @@
-import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pages.LoginPage;
+import pages.HomePage;
 import pages.SearchPage;
-import pages.PlayList;
+import pages.PlayListPage;
 
 public class Homework17 extends BaseTest{
 
@@ -11,9 +10,9 @@ public class Homework17 extends BaseTest{
 
     @Test(priority=1)
     public void addSongToPlaylist(){
-
-        PlayList pl = new PlayList(driver);
-        pl.createNewPlayList();
+        HomePage homePage = new HomePage(driver);
+        PlayListPage pl = new PlayListPage(driver);
+        homePage.createNewPlayList();
 
         SearchPage sp =new SearchPage(driver);
         sp.typeSongInSearchField("Dee");
@@ -26,7 +25,7 @@ public class Homework17 extends BaseTest{
         String expectedMessage = "Added 1 song into \"MyPlayList.\"";
         Assert.assertEquals(actualMessage,expectedMessage,"Message mismatch!");
 
-        pl.deletePlayListUsingListOption();
+        homePage.deletePlayListUsingListOption();
 
 
 }

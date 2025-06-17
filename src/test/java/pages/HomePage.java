@@ -11,18 +11,23 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.List;
 
-public class PlayList {
-    // WebDriver and WebDriverWait to interact with and wait for elements
-    protected WebDriver driver ;
-    protected WebDriverWait wait ;
+public class HomePage {
+
+    protected WebDriver driver = null;
+    protected WebDriverWait wait;
     protected Actions actions;
 
-    // Locators
+    // Locators for UI elements on the Koel player
+    By koelImage  = By.cssSelector("span .album-thumb");
+    By playNextSongButton = By.cssSelector("[data-testid='play-next-btn']");
+    By playButton = By.cssSelector("[data-testid='play-btn']");
+    By soundBarPlay = By.cssSelector("[data-testid ='sound-bar-play']");
+
+    //Locators for UI elements on the Playlist
     By createPlayListButton = By.cssSelector("[data-testid='sidebar-create-playlist-btn']");
     By newPlayListOption = By.cssSelector("[data-testid='playlist-context-menu-create-simple']");
     By playListNameInputField = By.cssSelector("input[name='name']");
     //or  By.xpath("//input[contains(@data-testid,'playlist-name')]");
-
     By userCreatedPlaylists  = By.cssSelector("#playlists ul li:nth-child(n+3)");//This selects only the li elements starting from the 3rd one and onward
     By deletePlayListRedButton = By.xpath("//button[contains(@class, 'btn-delete')]");
     By alert_playListDeletedSuccessfully = By.cssSelector(".success.show");
@@ -31,15 +36,48 @@ public class PlayList {
     By listOptionsEdit = By.xpath("//li[contains(@data-testid, 'context-menu-edit')]");
 
     By userCreatedPlaylists_Active = By.xpath("//a[@class='active']");
-
     By alertWindow = By.cssSelector("div .dialog");
     By alert_msg_OK = By.cssSelector(".ok");
-    // Constructor to initialize driver and wait
-    public PlayList(WebDriver driver){
+
+    // Constructor initializes WebDriver, WebDriverWait, and Actions for this page
+
+    public HomePage(WebDriver driver){
         this.driver = driver;
-        this.wait= new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.wait= new WebDriverWait(driver, Duration.ofSeconds(20));
         this.actions = new Actions(driver);
     }
+
+    //*************************************Methods to interact with Koel player*************************************
+    //Hovers over the Koel album image to reveal playback controls.
+    public void hoverOverKoelImage(){
+        WebElement hoverElement = wait.until(ExpectedConditions.visibilityOfElementLocated(koelImage));
+        actions.moveToElement(hoverElement).perform();
+
+    }
+
+    //Clicks on the "Next Song" button
+    public  void clickNextSongButton(){
+
+       WebElement nxtSongBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(playNextSongButton));
+       actions.moveToElement(nxtSongBtn).perform();
+       nxtSongBtn.click();
+
+    }
+
+    // Clicks the "Play" button to start song
+    public  void clickPlayButton() {
+        WebElement playBtn = wait.until(ExpectedConditions.visibilityOfElementLocated(playButton));
+        actions.moveToElement(playBtn).perform();
+        playBtn.click();
+    }
+
+    //confirming that a song is actively playing
+    public boolean isSoundBarVisible() {
+        WebElement soundPlayBarImage = wait.until(ExpectedConditions.visibilityOfElementLocated(soundBarPlay));
+       return (soundPlayBarImage.isDisplayed());
+    }
+
+    //************************************* Methods to interact with PlayList *************************************
     //click on'+' button to create a list
     public void clickOnPlusButton(){
         WebElement plusButton = wait.until(ExpectedConditions.visibilityOfElementLocated(createPlayListButton));
@@ -77,15 +115,6 @@ public class PlayList {
             wait.until(ExpectedConditions.invisibilityOfElementLocated(alert_playListDeletedSuccessfully));
             playLists.get(0).click();
         }
-    }
-    //deleting selected playlist
-    public void deletePlayListUsingRedButton(){
-
-        selectPlaylist();// Select a playlist to delete
-        WebElement deleteButton = wait.until(ExpectedConditions.visibilityOfElementLocated(deletePlayListRedButton));
-        deleteButton.click();
-
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(userCreatedPlaylists));//wait until play lists gets deleted
     }
     public void deletePlayListUsingListOption(){
 
@@ -133,5 +162,4 @@ public class PlayList {
         WebElement playListName = wait.until(ExpectedConditions.visibilityOfElementLocated(userCreatedPlaylists_Active));
         return playListName.getText();
     }
-
 }
