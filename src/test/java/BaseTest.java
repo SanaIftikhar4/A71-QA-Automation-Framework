@@ -14,7 +14,7 @@ public class BaseTest {
 
     protected WebDriver driver = null;
     protected String url = null;
-    protected LoginPage loginPage;
+    /*protected LoginPage loginPage;*/
 
 
     @BeforeClass
@@ -32,8 +32,8 @@ public class BaseTest {
         url = baseUrl;
         //Navigating to koel App
         driver.get(url);
-        loginPage = new LoginPage(driver);
-        loginPage.login("sana.iftikhar@testpro.io","abcd1234");
+        /*loginPage = new LoginPage(driver);
+        loginPage.login("sana.iftikhar@testpro.io","abcd1234");*/
 
     }
     /*@DataProvider(name="loginData")
