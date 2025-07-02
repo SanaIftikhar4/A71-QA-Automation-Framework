@@ -94,8 +94,18 @@ public class HomePageKoel {
     //************************************* Methods to interact with PlayList *************************************
     //click on'+' button to create a list
     public void clickOnPlusButton(){
-        wait.until(ExpectedConditions.visibilityOf(createPlayListButton));
-        createPlayListButton.click();
+
+        // Wait for the loading overlay to disappear before clicking
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("overlay")));
+
+        // Wait until the button is clickable
+        wait.until(ExpectedConditions.elementToBeClickable(createPlayListButton)).click();
+
+
+
+
+        /*wait.until(ExpectedConditions.visibilityOf(createPlayListButton));
+        createPlayListButton.click();*/
     }
     //select NewPlaylist from menu
     public void clickOnNewPlayList(){

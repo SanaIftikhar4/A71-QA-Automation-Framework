@@ -1,6 +1,7 @@
 package pageFactory;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -50,8 +51,29 @@ public class SearchPageKoel {
     }
 
     public void selectFirstSongFromResults() {
-       wait.until(ExpectedConditions.visibilityOf(firstSongRow));
-        firstSongRow.click();
+
+        wait.until(ExpectedConditions.visibilityOf(firstSongRow));
+
+        // Scroll into view (centered)
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", firstSongRow);
+
+        // Wait until clickable
+        wait.until(ExpectedConditions.elementToBeClickable(firstSongRow));
+
+        // Use JavaScript to click (fix for Firefox)
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", firstSongRow);
+
+      /*  wait.until(ExpectedConditions.visibilityOf(firstSongRow));
+
+        // Scroll into view (especially important for Firefox)
+        ((org.openqa.selenium.JavascriptExecutor) driver)
+                .executeScript("arguments[0].scrollIntoView({block: 'center'});", firstSongRow);
+
+        // Click when it becomes clickable
+        wait.until(ExpectedConditions.elementToBeClickable(firstSongRow)).click();*/
+
+      /* wait.until(ExpectedConditions.visibilityOf(firstSongRow));
+               //firstSongRow.click();*/
     }
 
     public void clickAddToButton() {

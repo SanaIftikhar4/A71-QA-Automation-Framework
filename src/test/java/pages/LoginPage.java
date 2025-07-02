@@ -33,9 +33,17 @@ public class LoginPage {
         wait.until(ExpectedConditions.visibilityOfElementLocated(loginButton)).click();
     }
 
-    public boolean isLogin(){
+    public boolean isUserLoggedIn(){
         WebElement profileName = wait.until(ExpectedConditions.visibilityOfElementLocated(userNameSpan));
      return   profileName.isDisplayed();
+    }
+    public boolean isStillOnLoginPage() {
+        try {
+            // If this element is still visible, we assume login failed
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(registrationForgotPasswordLink)).isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 }

@@ -39,9 +39,17 @@ public class LoginPageKoel {
         wait.until(ExpectedConditions.visibilityOf(loginButton)).click();
     }
 
-    public boolean isLogin(){
+    public boolean isUserLoggedIn(){
         WebElement profileName = wait.until(ExpectedConditions.visibilityOf(userNameSpan));
      return   profileName.isDisplayed();
+    }
+    public boolean isStillOnLoginPage() {
+        try {
+            // If this element is still visible, we assume login failed
+            return wait.until(ExpectedConditions.visibilityOf(registrationForgotPasswordLink)).isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 }

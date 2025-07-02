@@ -3,11 +3,21 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
 import pages.LoginPage;
+import utilities.BrowserFactory;
 
+import java.net.MalformedURLException;
+import java.net.URI;
 import java.time.Duration;
 
 public class BaseTest {
@@ -15,23 +25,32 @@ public class BaseTest {
     protected WebDriver driver = null;
     protected String url = null;
     /*protected LoginPage loginPage;*/
+    protected WebDriverWait wait = null;
+    protected Actions actions = null;
 
 
-    @BeforeClass
+    @BeforeSuite
+     static void setupClass(){
+      //  WebDriverManager.chromedriver().setup();
+    }
+
+
+    @BeforeMethod
     @Parameters({"baseUrl"})
-    public void launchBrowser(String baseUrl) {
+    public void launchBrowser(String baseUrl) throws MalformedURLException {
 
-        WebDriverManager.chromedriver().setup();
+        driver = BrowserFactory.pickBrowser(System.getProperty("browser"));
 
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--remote-allow-origins=*");  // if needed
-
-        driver = new ChromeDriver(options);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
+
+        wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+        actions = new Actions(driver);
 
         url = baseUrl;
         //Navigating to koel App
-        driver.get(url);
+        navigateToPage();
+
         /*loginPage = new LoginPage(driver);
         loginPage.login("sana.iftikhar@testpro.io","abcd1234");*/
 
@@ -44,13 +63,22 @@ public class BaseTest {
 
 
 
-    @AfterClass
-    public void tearDown() {
+    @AfterMethod
+     public void tearDown() {
         if (driver != null) {
-            driver.close();
-            driver.quit();
+            try {
+                driver.quit();
+            } catch (org.openqa.selenium.NoSuchSessionException e) {
+                System.out.println("Session already closed. Skipping quit().");
+            } catch (Exception e) {
+                System.out.println("Unexpected error during tear down: " + e.getMessage());
+            }
         }
     }
+    public void navigateToPage(){
+        driver.get(url);
+    }
+
 
 
 }

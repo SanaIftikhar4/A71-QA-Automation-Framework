@@ -1,5 +1,9 @@
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pageFactory.HomePageKoel;
+import pageFactory.LoginPageKoel;
+import pageFactory.PlayListPageKoel;
+import pageFactory.SearchPageKoel;
 import pages.HomePage;
 import pages.LoginPage;
 import pages.SearchPage;
@@ -7,21 +11,31 @@ import pages.PlayListPage;
 
 public class Homework17 extends BaseTest{
 
+     @Test(priority=1)
+    public void loginUsingInvalidCredentials(){//Valid email , invalid password
 
+        LoginPageKoel loginPage = new LoginPageKoel(driver);
+        loginPage.login("sana.iftikhar@testpro.io","a234");
+        Assert.assertTrue(loginPage.isStillOnLoginPage(),"User should not be successfully logged in with invalid credentials");
+    }
+    @Test(priority=2)
+    public void loginUsingValidCredentials(){//Valid email , valid password
 
-    @Test(priority=1)
-    public void addSongToPlaylist(){
-        LoginPage loginPage = new LoginPage(driver);
-
-
+        LoginPageKoel loginPage = new LoginPageKoel(driver);
         loginPage.login("sana.iftikhar@testpro.io","abcd1234");
-        HomePage pb = new HomePage(driver);
+        Assert.assertTrue(loginPage.isUserLoggedIn(),"User should be successfully logged in with valid credentials");
+    }
+    @Test(priority=3)
+    public void addSongToPlaylist(){
+        LoginPageKoel loginPage = new LoginPageKoel(driver);
+        loginPage.login("sana.iftikhar@testpro.io","abcd1234");
 
-        HomePage homePage = new HomePage(driver);
-        PlayListPage pl = new PlayListPage(driver);
+
+        HomePageKoel homePage = new HomePageKoel(driver);
+        PlayListPageKoel pl = new PlayListPageKoel(driver);
         homePage.createNewPlayList();
 
-        SearchPage sp =new SearchPage(driver);
+        SearchPageKoel sp =new SearchPageKoel(driver);
         sp.typeSongInSearchField("Dee");
         sp.clickViewAll();
         sp.selectFirstSongFromResults();
