@@ -15,7 +15,7 @@ public class Homework23 extends BaseTest {
 
     @Test(priority = 1)
     public void loginTest(){
-        LoginPageKoel loginPage = new LoginPageKoel(driver);
+        LoginPageKoel loginPage = new LoginPageKoel(getDriver());
 
 
         loginPage.login("sana.iftikhar@testpro.io","abcd1234");
@@ -25,7 +25,7 @@ public class Homework23 extends BaseTest {
 
         // Instantiate the play button page object to access music controls
 
-        HomePageKoel homePage = new HomePageKoel(driver);
+        HomePageKoel homePage = new HomePageKoel(getDriver());
 
         // Hover over the Koel album image to reveal playback controls
         homePage.hoverOverKoelImage();
@@ -44,8 +44,8 @@ public class Homework23 extends BaseTest {
     public void renamePlaylist(){
 
         String randomName = "Playlist_" + UUID.randomUUID().toString().substring(0, 8);
-        HomePageKoel homePage = new HomePageKoel(driver);
-        PlayListPageKoel playListPage = new PlayListPageKoel(driver);
+        HomePageKoel homePage = new HomePageKoel(getDriver());
+        PlayListPageKoel playListPage = new PlayListPageKoel(getDriver());
         homePage.selectPlaylist();
         homePage.editPlayListName(randomName);
 
@@ -57,8 +57,8 @@ public class Homework23 extends BaseTest {
     }
     @Test(priority = 4)
     public void deletePlaylist() {
-        HomePageKoel homePage = new HomePageKoel(driver);
-        PlayListPageKoel playListPage = new PlayListPageKoel(driver);
+        HomePageKoel homePage = new HomePageKoel(getDriver());
+        PlayListPageKoel playListPage = new PlayListPageKoel(getDriver());
         playListPage.deletePlayListUsingRedButton();
         String expectedAlertMessage = "Deleted playlist \"MyPlayList.\"";
         //Assert.assertTrue(playList.),);
@@ -73,11 +73,11 @@ public class Homework23 extends BaseTest {
 
         loginPage.login("sana.iftikhar@testpro.io","abcd1234");
         */
-        HomePageKoel homePage = new HomePageKoel(driver);
-        PlayListPageKoel playListPage = new PlayListPageKoel(driver);
+        HomePageKoel homePage = new HomePageKoel(getDriver());
+        PlayListPageKoel playListPage = new PlayListPageKoel(getDriver());
         homePage.createNewPlayList();
 
-        SearchPageKoel sp =new SearchPageKoel(driver);
+        SearchPageKoel sp =new SearchPageKoel(getDriver());
         sp.typeSongInSearchField("Dee");
         sp.clickViewAll();
         sp.selectFirstSongFromResults();

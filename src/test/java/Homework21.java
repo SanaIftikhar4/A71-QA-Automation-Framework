@@ -10,8 +10,8 @@ public class Homework21 extends BaseTest{
     public void renamePlaylist(){
 
         String randomName = "Playlist_" + UUID.randomUUID().toString().substring(0, 8);
-        HomePage homePage = new HomePage(driver);
-        PlayListPage playListPage = new PlayListPage(driver);
+        HomePage homePage = new HomePage(getDriver());
+        PlayListPage playListPage = new PlayListPage(getDriver());
         homePage.selectPlaylist();
         homePage.editPlayListName(randomName);
 

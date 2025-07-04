@@ -10,11 +10,11 @@ public class Homework18 extends BaseTest{
     @Test (priority = 1)
     public void playSong()  {
         // Instantiate the play button page object to access music controls
-        LoginPage loginPage = new LoginPage(driver);
+        LoginPage loginPage = new LoginPage(getDriver());
 
 
         loginPage.login("sana.iftikhar@testpro.io","abcd1234");
-        HomePage pb = new HomePage(driver);
+        HomePage pb = new HomePage(getDriver());
 
         // Hover over the Koel album image to reveal playback controls
         pb.hoverOverKoelImage();

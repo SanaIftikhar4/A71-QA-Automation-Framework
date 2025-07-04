@@ -1,84 +1,78 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
-import pages.LoginPage;
 import utilities.BrowserFactory;
+import utilities.DriverManager;
+import utilities.cloud.LambdaTestFactory;
 
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.time.Duration;
+
+import static utilities.DriverManager.getDriver;
 
 public class BaseTest {
 
-    protected WebDriver driver = null;
-    protected String url = null;
-    /*protected LoginPage loginPage;*/
+    // Wait object available to child test classes
     protected WebDriverWait wait = null;
-    protected Actions actions = null;
 
+    // Application base URL (fetched from testng.xml)
+    protected String url = null;
 
+    // One-time setup before the entire test suite runs
     @BeforeSuite
-     static void setupClass(){
-      //  WebDriverManager.chromedriver().setup();
+    static void setupClass() {
+        // Optional: Set up things like report folders, DB connections, etc.
     }
 
-
+    /**
+     * Set up method runs before each test method.
+     * Dynamically chooses local or cloud driver based on system property.
+     * Also sends test method name to LambdaTest for better test identification.
+     */
     @BeforeMethod
     @Parameters({"baseUrl"})
-    public void launchBrowser(String baseUrl) throws MalformedURLException {
+    public void setUpBrowser(Method method, String baseUrl) throws MalformedURLException {
 
-        driver = BrowserFactory.pickBrowser(System.getProperty("browser"));
+        String testName = method.getName(); // Dynamically get the current test method name
+        WebDriver driver;
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        driver.manage().window().maximize();
-
-        wait = new WebDriverWait(driver,Duration.ofSeconds(10));
-        actions = new Actions(driver);
-
-        url = baseUrl;
-        //Navigating to koel App
-        navigateToPage();
-
-        /*loginPage = new LoginPage(driver);
-        loginPage.login("sana.iftikhar@testpro.io","abcd1234");*/
-
-    }
-    /*@DataProvider(name="loginData")
-    public Object[][] loginToAppValidData(){
-        return new Object[][]{
-                {"sana.iftikhar@testpro.io","abcd1234" }
-        };*/
-
-
-
-    @AfterMethod
-     public void tearDown() {
-        if (driver != null) {
-            try {
-                driver.quit();
-            } catch (org.openqa.selenium.NoSuchSessionException e) {
-                System.out.println("Session already closed. Skipping quit().");
-            } catch (Exception e) {
-                System.out.println("Unexpected error during tear down: " + e.getMessage());
-            }
+        // Step 1: Pick local or cloud driver
+        if ("cloud".equalsIgnoreCase(System.getProperty("browser"))) {
+            driver = LambdaTestFactory.lambdaTest(testName); // Send test name to LambdaTest
+        } else {
+            driver = BrowserFactory.pickBrowser(System.getProperty("browser"));
         }
+
+        // Step 2: Store driver in ThreadLocal to support parallel tests
+        DriverManager.setDriver(driver);
+
+        // Step 3: Standard driver setup (timeouts, maximize)
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        getDriver().manage().window().maximize();
+
+        // Step 4: Create wait utility
+        wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
+        // Step 5: Navigate to base URL passed from testng.xml
+        this.url = baseUrl;
+        navigateToPage();
     }
-    public void navigateToPage(){
-        driver.get(url);
+
+    // Navigate to base URL
+    public void navigateToPage() {
+        getDriver().get(url);
     }
 
+    // Clean up driver after each test
+    @AfterMethod
+    public void tearDown() {
+        DriverManager.quitDriver(); // Closes browser & clears ThreadLocal memory
+    }
 
-
+    // Utility method for child classes to access WebDriver
+    protected WebDriver getDriver() {
+        return DriverManager.getDriver();
+    }
 }

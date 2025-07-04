@@ -10,8 +10,8 @@ public class Homework19 extends BaseTest {
 
     @Test(priority = 1)
     public void deletePlaylist() {
-        HomePage homePage = new HomePage(driver);
-        PlayListPage playListPage = new PlayListPage(driver);
+        HomePage homePage = new HomePage(getDriver());
+        PlayListPage playListPage = new PlayListPage(getDriver());
         playListPage.deletePlayListUsingRedButton();
         String expectedAlertMessage = "Deleted playlist \"MyPlayList.\"";
         //Assert.assertTrue(playList.),);
