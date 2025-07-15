@@ -51,6 +51,8 @@ public class HomePageKoel {
     WebElement alertWindow ;
     @FindBy (css=".ok")
     WebElement alert_msg_OK;
+    @FindBy (css=".logout.control")
+    WebElement logoutButton;
 
     // Constructor initializes WebDriver, WebDriverWait, and Actions for this page
 
@@ -198,5 +200,11 @@ public class HomePageKoel {
     public String getEditedPlaylistName(){
        wait.until(ExpectedConditions.visibilityOf(userCreatedPlaylists_Active));
         return userCreatedPlaylists_Active.getText();
+    }
+
+    /// /Logging out of the Koel App
+
+    public void clickLogoutButton(){
+        wait.until(ExpectedConditions.visibilityOf(logoutButton)).click();
     }
 }

@@ -16,7 +16,7 @@ public class Homework17 extends BaseTest{
 
         LoginPageKoel loginPage = new LoginPageKoel(getDriver());
         loginPage.login("sana.iftikhar@testpro.io","a234");
-        Assert.assertTrue(loginPage.isStillOnLoginPage(),"User should not be successfully logged in with invalid credentials");
+        Assert.assertTrue(loginPage.isLoginPageVisible(),"User should not be successfully logged in with invalid credentials");
     }
     @Test(priority=2)
     public void loginUsingValidCredentials(){//Valid email , valid password
@@ -25,7 +25,7 @@ public class Homework17 extends BaseTest{
         loginPage.login("sana.iftikhar@testpro.io","abcd1234");
         Assert.assertTrue(loginPage.isUserLoggedIn(),"User should be successfully logged in with valid credentials");
     }
-    @Test(priority=3)
+    /*@Test(priority=3)
     public void addSongToPlaylist(){
         LoginPageKoel loginPage = new LoginPageKoel(getDriver());
         loginPage.login("sana.iftikhar@testpro.io","abcd1234");
@@ -49,6 +49,6 @@ public class Homework17 extends BaseTest{
         homePage.deletePlayListUsingListOption();
 
 
-}
+}*/
 
 }

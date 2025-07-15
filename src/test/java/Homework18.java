@@ -1,5 +1,6 @@
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import pageFactory.HomePageKoel;
 import pageFactory.LoginPageKoel;
 import pages.HomePage;
 import pages.LoginPage;
@@ -10,11 +11,11 @@ public class Homework18 extends BaseTest{
     @Test (priority = 1)
     public void playSong()  {
         // Instantiate the play button page object to access music controls
-        LoginPage loginPage = new LoginPage(getDriver());
+        LoginPageKoel loginPage = new LoginPageKoel(getDriver());
 
 
         loginPage.login("sana.iftikhar@testpro.io","abcd1234");
-        HomePage pb = new HomePage(getDriver());
+        HomePageKoel pb = new HomePageKoel(getDriver());
 
         // Hover over the Koel album image to reveal playback controls
         pb.hoverOverKoelImage();

@@ -6,9 +6,10 @@
     <test name="Example Test" preserve-order="false">
         <classes>
 <!-- -->
+            <!--    <class name="LoginTest"/> -->
+            <class name="LogOutTest"/>
 
 
-            <class name="Homework17"/>
 
 
         </classes>

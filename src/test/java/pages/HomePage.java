@@ -39,6 +39,8 @@ public class HomePage {
     By alertWindow = By.cssSelector("div .dialog");
     By alert_msg_OK = By.cssSelector(".ok");
 
+
+    By logoutButton  = By.cssSelector(".logout.control");
     // Constructor initializes WebDriver, WebDriverWait, and Actions for this page
 
     public HomePage(WebDriver driver){
